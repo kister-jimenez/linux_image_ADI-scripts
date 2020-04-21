@@ -21,37 +21,16 @@ md5_self=`md5sum $0`
 # repository:branch:make_target
 
 BUILDS_DEV="linux_image_ADI-scripts:origin/master \
-	fmcomms1-eeprom-cal:origin/master \
 	libiio:origin/master \
-	libad9361-iio:origin/master \
-	iio-oscilloscope:origin/master \
-	fru_tools:origin/master \
-	iio-fm-radio:origin/master \
-	jesd-eye-scan-gtk:origin/master \
-	diagnostic_report:origin/master \
-	colorimeter:origin/master"
+	libad9361-iio:origin/master"
 
 BUILDS_2018_R2="linux_image_ADI-scripts:origin/master \
-	fmcomms1-eeprom-cal:origin/2015_R2 \
 	libiio:origin/2018_R2 \
-	libad9361-iio:origin/master \
-	iio-oscilloscope:origin/2018_R2\
-	fru_tools:origin/2018_R2 \
-	iio-fm-radio:origin/2015_R2 \
-	jesd-eye-scan-gtk:origin/2018_R2 \
-	diagnostic_report:origin/master \
-	colorimeter:origin/2018_R2"
+	libad9361-iio:origin/master"
 
 BUILDS_2019_R1="linux_image_ADI-scripts:origin/master \
-	fmcomms1-eeprom-cal:origin/2015_R2 \
 	libiio:origin/2019_R1 \
-	libad9361-iio:origin/master \
-	iio-oscilloscope:origin/2019_R1\
-	fru_tools:origin/2019_R1 \
-	iio-fm-radio:origin/2015_R2 \
-	jesd-eye-scan-gtk:origin/2019_R1 \
-	diagnostic_report:origin/master \
-	colorimeter:origin/2019_R1"
+	libad9361-iio:origin/master"
 
 do_build ()
 {
@@ -235,7 +214,12 @@ do
     cd ..
   else
     echo "\n *** Cloning $REPO ***"
-    git clone https://github.com/analogdevicesinc/$REPO.git || continue
+    if [ $REPO = "linux_image_ADI-scripts" ]
+    then
+        git clone https://github.com/kister-jimenez/linux_image_ADI-scripts.git || continue
+    else
+        git clone https://github.com/analogdevicesinc/$REPO.git || continue
+    fi
   fi
 
   echo "\n *** Building $REPO ***"
